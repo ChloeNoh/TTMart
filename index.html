@@ -39,12 +39,6 @@
       gap: 15px;
       align-items: center;
     }
-    .product img {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
     .product-info {
       flex: 1;
     }
@@ -69,39 +63,31 @@
   <div class="product-list" id="product-list"></div>
 
   <script>
-    const sheetID = '1_sGzlPCk2jMcmKMl-eqiymPzueP307D4Kr-lrvM-aI0';
-    const sheetName = 'Purity Product List';
-    const query = encodeURIComponent('SELECT *');
-    const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&tq=${query}`;
+    const url = 'https://docs.google.com/spreadsheets/d/1GYwBQ0THPAD-1A0CgaOq9M3-r0hak8omAu4iGOjsMs0/gviz/tq?tqx=out:csv';
 
     const productList = document.getElementById('product-list');
     const searchInput = document.getElementById('search');
 
     fetch(url)
       .then(res => res.text())
-      .then(data => {
-        const jsonData = JSON.parse(data.substring(47).slice(0, -2));
-        const rows = jsonData.table.rows.map(row => row.c.map(cell => cell ? cell.v : ''));
-
-        const products = rows.map(row => ({
-          title: row[0],
-          description: row[1],
-          price: row[2],
-          image: row[3]
+      .then(text => {
+        const rows = text.trim().split('\n').map(line => line.split(','));
+        const products = rows.slice(1).map(row => ({
+          name: row[0],
+          quantity: row[1],
+          price: row[2]
         }));
 
         function renderProducts(filter = '') {
           const filtered = products.filter(p =>
-            p.title.toLowerCase().includes(filter.toLowerCase()) ||
-            p.description.toLowerCase().includes(filter.toLowerCase())
+            p.name.toLowerCase().includes(filter.toLowerCase())
           );
 
           productList.innerHTML = filtered.map(p => `
             <div class="product">
-              <img src="${p.image}" alt="${p.title}">
               <div class="product-info">
-                <div class="product-title">${p.title}</div>
-                <div class="product-description">${p.description}</div>
+                <div class="product-title">${p.name}</div>
+                <div class="product-description">Qty: ${p.quantity}</div>
                 <div class="product-price">${p.price}</div>
               </div>
             </div>
