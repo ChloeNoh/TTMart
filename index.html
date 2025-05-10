@@ -61,6 +61,27 @@
       font-weight: bold;
       color: #222;
     }
+    .cart {
+      margin-top: 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .cart h2 {
+      margin-top: 0;
+    }
+    .cart-item {
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 5px 10px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -68,11 +89,29 @@
   <input type="text" id="search" placeholder="Search products..." />
   <div class="product-list" id="product-list"></div>
 
+  <div class="cart">
+    <h2>Your Cart</h2>
+    <form id="order-form" action="https://formsubmit.co/nalae1270@gmail.com" method="POST">
+      <div id="cart-items"></div>
+      <input type="hidden" name="products" id="product-input" />
+      <input type="text" name="name" placeholder="Your name" required /> <br><br>
+      <input type="email" name="email" placeholder="Your email" required /> <br><br>
+      <button type="submit">Submit Order</button>
+    </form>
+  </div>
+
   <script>
     const url = 'https://docs.google.com/spreadsheets/d/1GYwBQ0THPAD-1A0CgaOq9M3-r0hak8omAu4iGOjsMs0/gviz/tq?tqx=out:csv';
-
     const productList = document.getElementById('product-list');
     const searchInput = document.getElementById('search');
+    const cartItemsDiv = document.getElementById('cart-items');
+    const productInput = document.getElementById('product-input');
+    let cart = [];
+
+    function updateCartDisplay() {
+      cartItemsDiv.innerHTML = cart.map(item => `<div class="cart-item">${item.name} - ${item.price}</div>`).join('');
+      productInput.value = cart.map(item => `${item.name} (${item.price})`).join(', ');
+    }
 
     fetch(url)
       .then(res => res.text())
@@ -103,10 +142,16 @@
                 <div class="product-description">${p.description}</div>
                 <div class="product-price">${p.price}</div>
                 <div class="product-description">Available: ${p.quantity}</div>
+                <button onclick='addToCart(${JSON.stringify(p)})'>Add to Cart</button>
               </div>
             </div>
           `).join('');
         }
+
+        window.addToCart = function(product) {
+          cart.push(product);
+          updateCartDisplay();
+        };
 
         searchInput.addEventListener('input', e => {
           renderProducts(e.target.value);
