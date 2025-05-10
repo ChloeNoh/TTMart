@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Baby & Kids Products</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      color: #444;
+    }
+    #search {
+      display: block;
+      margin: 0 auto 20px;
+      padding: 10px;
+      width: 90%;
+      max-width: 400px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .product-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .product {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    .product img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .product-info {
+      flex: 1;
+    }
+    .product-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0 0 5px;
+    }
+    .product-description {
+      margin: 0 0 5px;
+      color: #666;
+    }
+    .product-price {
+      font-weight: bold;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <h1>Baby & Kids Products</h1>
+  <input type="text" id="search" placeholder="Search products...">
+  <div class="product-list" id="product-list"></div>
+
+  <script>
+    const sheetID = '1_sGzlPCk2jMcmKMl-eqiymPzueP307D4Kr-lrvM-aI0';
+    const sheetName = 'Sheet1';
+    const query = encodeURIComponent('SELECT *');
+    const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}&tq=${query}`;
+
+    const productList = document.getElementById('product-list');
+    const searchInput = document.getElementById('search');
+
+    fetch(url)
+      .then(res => res.text())
+      .then(data => {
+        const jsonData = JSON.parse(data.substring(47).slice(0, -2));
+        const rows = jsonData.table.rows.map(row => row.c.map(cell => cell ? cell.v : ''));
+
+        const products = rows.map(row => ({
+          title: row[0],
+          description: row[1],
+          price: row[2],
+          image: row[3]
+        }));
+
+        function renderProducts(filter = '') {
+          const filtered = products.filter(p =>
+            p.title.toLowerCase().includes(filter.toLowerCase()) ||
+            p.description.toLowerCase().includes(filter.toLowerCase())
+          );
+
+          productList.innerHTML = filtered.map(p => `
+            <div class="product">
+              <img src="${p.image}" alt="${p.title}">
+              <div class="product-info">
+                <div class="product-title">${p.title}</div>
+                <div class="product-description">${p.description}</div>
+                <div class="product-price">${p.price}</div>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        searchInput.addEventListener('input', e => {
+          renderProducts(e.target.value);
+        });
+
+        renderProducts();
+      });
+  </script>
+</body>
+</html>
