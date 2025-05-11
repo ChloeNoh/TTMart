@@ -176,7 +176,7 @@
   const numericPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
   const subtotal = (numericPrice * item.quantity).toFixed(2);
   return item.quantity + ' x ' + item.name + ' (' + item.price + ' each) = $' + subtotal;
-}).join('\n');
+}).join('<br>');
 
       const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
       cartCount.textContent = totalItems;
