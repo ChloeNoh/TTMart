@@ -119,12 +119,25 @@
   <div class="cart">
     <h2>Your Cart</h2>
     <form id="order-form" action="https://formsubmit.co/nalae1270@gmail.com" method="POST">
+      <input type="hidden" name="_cc" value="{{email}}">
+      <input type="hidden" name="_subject" id="subject-field" value="New Order from TT Mart">
       <div id="cart-items"></div>
       <input type="hidden" name="products" id="product-input" />
+      <input type="hidden" name="total" id="total-input" />
       <input type="text" name="name" placeholder="Your name" required /> <br><br>
       <input type="email" name="email" placeholder="Your email" required /> <br><br>
       <button type="submit">Submit Order</button>
-    </form>
+    $1
+        Once we receive all of your products, we will contact you with payment instructions.<br>
+You can pay by e-transfer to <strong>nalae1270@gmail.com</strong> or by credit card (a 3% fee applies).<br>
+$1
+        After your payment has been received, you may pick up your order at one of the following locations:<br>
+1. <a href="https://maps.google.com/?q=Oneroot+Honey+Inc,+24+Viceroy+Rd+%2315,+Concord,+ON+L4K+2L9" target="_blank"><strong>24 Viceroy Rd, Unit 15, Concord, Ontario L4K 2L9</strong></a> — Monday to Friday, 10am to 5pm<br>
+2. <a href="https://maps.google.com/?q=29+Coneflower+Crescent,+North+York,+ON" target="_blank"><strong>29 Coneflower Crescent</strong></a> (Bathurst/Drewry) — by appointment only<br>
+Please confirm your preferred pickup location and available date/time after payment.<br>
+        Thank you!
+      </p>
+$1
     <div id="cart-total" style="margin-top:10px; font-weight:bold;"></div>
 
     <div id="success-message" class="success-message" style="display: none;">Thank you! Your order has been submitted.</div>
@@ -168,7 +181,7 @@
           </div>
         </div>`
       ).join('');
-      productInput.value = Object.entries(cart).map(([key, item]) => `${item.quantity} x ${item.name}`).join('\\n');
+      productInput.value = Object.entries(cart).map(([key, item]) => `${item.quantity} x ${item.name}`).join('%0A');
       const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
       cartCount.textContent = totalItems;
     const totalPrice = Object.values(cart).reduce(function(sum, item) {
@@ -176,6 +189,7 @@
   return sum + numericPrice * item.quantity;
 }, 0);
 document.getElementById('cart-total').textContent = 'Total: $' + totalPrice.toFixed(2);
+      document.getElementById('total-input').value = 'Total: $' + totalPrice.toFixed(2);
     }
 
     function addToCart(product) {
@@ -226,6 +240,9 @@ document.getElementById('cart-total').textContent = 'Total: $' + totalPrice.toFi
     }
 
     document.getElementById('order-form').addEventListener('submit', function(e) {
+      const nameField = document.querySelector('input[name="name"]');
+      const subjectField = document.getElementById('subject-field');
+      subjectField.value = `New Order from TT Mart - ${nameField.value}`;
       successMessage.style.display = 'block';
       setTimeout(() => { successMessage.style.display = 'none'; }, 5000);
     });
