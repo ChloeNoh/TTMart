@@ -247,11 +247,10 @@ const tax = totalPrice * 0.13;
     document.getElementById('order-form').addEventListener('submit', function(e) {
       const nameField = document.querySelector('input[name="name"]');
       const noteField = document.querySelector('input[name="note"]');
-      const greeting = `Dear ${nameField.value},
+      const greeting = `Dear ${nameField.value},\n\`;
+      
+      noteField.value = greeting + noteField.value.replace(/<br>/g, '\n');
 
-`;
-      noteField.value = greeting + noteField.value.replace(/<br>/g, '
-');
       successMessage.style.display = 'block';
       setTimeout(() => { successMessage.style.display = 'none'; }, 5000);
     });
