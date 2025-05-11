@@ -191,10 +191,10 @@ const tax = totalPrice * 0.13;
       document.getElementById('cart-subtotal').textContent = 'Subtotal: $' + totalPrice.toFixed(2);
       document.getElementById('cart-tax').textContent = 'Tax (13%): $' + tax.toFixed(2);
       document.getElementById('cart-total').textContent = 'Total: $' + finalTotal.toFixed(2);
-      document.getElementById('total-input').value =
-  'Subtotal: $' + totalPrice.toFixed(2) +
-  '\\nTax (13%): $' + tax.toFixed(2) +
-  '\\nTotal: $' + finalTotal.toFixed(2);
+     document.getElementById('total-input').value =
+  'Subtotal: $' + totalPrice.toFixed(2) + '\n' +
+  'Tax (13%): $' + tax.toFixed(2) + '\n' +
+  'Total: $' + finalTotal.toFixed(2);
     }
 
     function addToCart(product) {
