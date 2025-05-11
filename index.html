@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TT Mart</title>
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       font-family: sans-serif;
       margin: 0;
@@ -14,6 +17,14 @@
       background-size: cover;
     }
     header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      background: #fffaf0;
+      padding: 10px 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -39,6 +50,13 @@
       font-size: 12px;
     }
     #search {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      z-index: 998;
+      background: #fffaf0;
+
       display: block;
       margin: 0 auto 20px;
       padding: 10px;
@@ -120,10 +138,10 @@
 <body>
   <header>
     <h1>TT Mart</h1>
-    <div class="cart-icon">🛒<span id="cart-count" class="cart-count">0</span></div>
+    <div class="cart-icon" onclick="document.querySelector('.cart').scrollIntoView({ behavior: 'smooth' });">🛒<span id="cart-count" class="cart-count">0</span></div>
   </header>
   <input type="text" id="search" placeholder="Search products..." />
-  <div class="product-list" id="product-list"></div>
+  <div style="margin-top: 140px;" class="product-list" id="product-list"></div>
 
   <div class="cart">
     <h2>Your Cart</h2>
@@ -195,6 +213,8 @@
       addBtn.textContent = 'Add to Cart';
       addBtn.onclick = () => {
         for (let i = 0; i < quantity; i++) addToCart(product);
+        addBtn.textContent = 'Added!';
+        setTimeout(() => { addBtn.textContent = 'Add to Cart'; }, 1000);
       };
 
       container.append(minusBtn, quantityDisplay, plusBtn, addBtn);
@@ -257,6 +277,15 @@
 
         renderProducts();
       });
+  window.addEventListener('scroll', () => {
+      const btn = document.getElementById('scrollTopBtn');
+      if (window.scrollY > 200) {
+        btn.style.display = 'block';
+      } else {
+        btn.style.display = 'none';
+      }
+    });
   </script>
+<button id="scrollTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" style="display:none; position: fixed; bottom: 20px; right: 20px; padding: 10px 15px; font-size: 14px; background-color: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">⬆ Top</button>
 </body>
 </html>
