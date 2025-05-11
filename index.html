@@ -172,7 +172,13 @@
           </div>
         </div>`
       ).join('');
-      productInput.value = Object.entries(cart).map(([key, item]) => `${item.quantity} x ${item.name}`).join('%0A');
+     productInput.value = Object.entries(cart).map(([key, item]) => {
+  const numericPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+  const subtotal = (numericPrice * item.quantity).toFixed(2);
+  return `${item.quantity} x ${item.name} (${item.price} each) = $${subtotal}`;
+}).join('\n');
+
+
       const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
       cartCount.textContent = totalItems;
     const totalPrice = Object.values(cart).reduce(function(sum, item) {
