@@ -125,6 +125,8 @@
       <input type="email" name="email" placeholder="Your email" required /> <br><br>
       <button type="submit">Submit Order</button>
     </form>
+    <div id="cart-total" style="margin-top:10px; font-weight:bold;"></div>
+
     <div id="success-message" class="success-message" style="display: none;">Thank you! Your order has been submitted.</div>
   </div>
 
@@ -156,6 +158,7 @@
     function updateCartDisplay() {
       cartItemsDiv.innerHTML = Object.entries(cart).map(([key, item]) =>
         `<div class="cart-item">
+
           <span>${item.name} (${item.price})</span><br>
           <div class="quantity-controls">
             <button type="button" onclick="changeQuantity('${key}', -1)">-</button>
@@ -168,7 +171,11 @@
       productInput.value = Object.entries(cart).map(([key, item]) => `${item.quantity} x ${item.name}`).join('\\n');
       const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
       cartCount.textContent = totalItems;
-    }
+    const totalPrice = Object.values(cart).reduce(function(sum, item) {
+  var numericPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+  return sum + numericPrice * item.quantity;
+}, 0);
+document.getElementById('cart-total').textContent = 'Total: $' + totalPrice.toFixed(2);
 
     function addToCart(product) {
       const key = product.name;
