@@ -246,6 +246,11 @@ const tax = totalPrice * 0.13;
 
     document.getElementById('order-form').addEventListener('submit', function(e) {
       const nameField = document.querySelector('input[name="name"]');
+      const noteField = document.querySelector('input[name="note"]');
+      const greeting = `Dear ${nameField.value},\n\n`;
+noteField.value = greeting + noteField.value.replace(/<br>/g, '\n');
+
+      const nameField = document.querySelector('input[name="name"]');
       const subjectField = document.getElementById('subject-field');
       subjectField.value = `New Order from TT Mart - ${nameField.value}`;
       successMessage.style.display = 'block';
