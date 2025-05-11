@@ -232,7 +232,7 @@
         const products = rows.slice(1).map(row => {
           return {
             name: row[0].replace(/^"|"$/g, ''),
-            description: row[1].replace(/^"|"$/g, ''),
+            itemNumber: row[1].replace(/^"|"$/g, ''),
             price: row[2].replace(/^"|"$/g, ''),
                         image: row[4] ? row[4].replace(/^"|"$/g, '') : ''
           };
@@ -241,7 +241,7 @@
         function renderProducts(filter = '') {
           const filtered = products.filter(p =>
             p.name.toLowerCase().includes(filter.toLowerCase()) ||
-            p.description.toLowerCase().includes(filter.toLowerCase())
+            p.itemNumber.toLowerCase().includes(filter.toLowerCase())
           );
 
           productList.innerHTML = '';
@@ -260,7 +260,7 @@
             infoDiv.className = 'product-info';
             infoDiv.innerHTML = `
               <div class="product-title">${p.name}</div>
-              <div class="product-description">${p.description}</div>
+              <div class="product-description">Item #: ${p.itemNumber}</div>
               <div class="product-price">${p.price}</div>
                           `;
             infoDiv.appendChild(createQuantityControls(p));
