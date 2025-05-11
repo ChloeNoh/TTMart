@@ -122,7 +122,9 @@
   <form id="order-form" action="https://formsubmit.co/nalae1270@gmail.com" method="POST" class="cart">
     <h2>Your Cart</h2>
     <div id="cart-items"></div>
-    <div id="cart-total" style="margin-top: 10px; font-weight: bold;"></div>
+    <div id="cart-subtotal" style="margin-top: 10px;">Subtotal: $0.00</div>
+    <div id="cart-tax">Tax (13%): $0.00</div>
+    <div id="cart-total" style="font-weight: bold;">Total: $0.00</div>
     <input type="hidden" name="products" id="product-input" />
     <input type="hidden" name="total" id="total-input" />
     <input type="text" name="name" placeholder="Your name" required /> <br><br>
@@ -184,8 +186,14 @@
   var numericPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
   return sum + numericPrice * item.quantity;
 }, 0);
-document.getElementById('cart-total').textContent = 'Total: $' + totalPrice.toFixed(2);
-      document.getElementById('total-input').value = 'Total: $' + totalPrice.toFixed(2);
+const tax = totalPrice * 0.13;
+      const finalTotal = totalPrice + tax;
+      document.getElementById('cart-subtotal').textContent = 'Subtotal: $' + totalPrice.toFixed(2);
+      document.getElementById('cart-tax').textContent = 'Tax (13%): $' + tax.toFixed(2);
+      document.getElementById('cart-total').textContent = 'Total: $' + finalTotal.toFixed(2);
+      document.getElementById('total-input').value = 'Subtotal: $' + totalPrice.toFixed(2) + '
+Tax (13%): $' + tax.toFixed(2) + '
+Total: $' + finalTotal.toFixed(2);
     }
 
     function addToCart(product) {
