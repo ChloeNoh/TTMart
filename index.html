@@ -178,7 +178,7 @@
   const numericPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
   const subtotal = (numericPrice * item.quantity).toFixed(2);
   return item.quantity + ' x ' + item.name + ' (' + item.price + ' each) = $' + subtotal;
-}).join('<br>');
+}).join('\n');
 
       const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
       cartCount.textContent = totalItems;
@@ -191,9 +191,10 @@ const tax = totalPrice * 0.13;
       document.getElementById('cart-subtotal').textContent = 'Subtotal: $' + totalPrice.toFixed(2);
       document.getElementById('cart-tax').textContent = 'Tax (13%): $' + tax.toFixed(2);
       document.getElementById('cart-total').textContent = 'Total: $' + finalTotal.toFixed(2);
-      document.getElementById('total-input').value = 'Subtotal: $' + totalPrice.toFixed(2) + '
-Tax (13%): $' + tax.toFixed(2) + '
-Total: $' + finalTotal.toFixed(2);
+      document.getElementById('total-input').value =
+  'Subtotal: $' + totalPrice.toFixed(2) +
+  '\\nTax (13%): $' + tax.toFixed(2) +
+  '\\nTotal: $' + finalTotal.toFixed(2);
     }
 
     function addToCart(product) {
