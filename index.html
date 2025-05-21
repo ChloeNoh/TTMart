@@ -268,11 +268,12 @@ const tax = totalPrice * 0.13;
         const rows = text.trim().split('\n').map(line => line.split(','));
         const products = rows.slice(1).map(row => {
           return {
-          name: row[0].replace(/^"|"$/g, ''),
-          itemNumber: row[1].replace(/^"|"$/g, ''),
-          price: row[2].replace(/^"|"$/g, ''),
-          image: row[3] ? row[3].replace(/^"|"$/g, '') : '',
-          brand: row[5] ? row[5].replace(/[\ \"]/g, '') : 'none'
+            name: row[0].replace(/^"|"$/g, ''),
+            itemNumber: row[1].replace(/^"|"$/g, ''),
+            price: row[2].replace(/^"|"$/g, ''),
+            image: row[3] ? row[3].replace(/^"|"$/g, '') : '',
+            brandNoSpace: row[5] ? row[5].replace(/[\ \"]/g, '') : 'none',
+            brand: row[5] ? row[5].replace(/[\"]/g, '') : 'none',
           };
         });
 
