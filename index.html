@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="format-detection" content="telephone=no">
   <title>TT Mart</title>
   <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
@@ -242,7 +243,7 @@ const tax = totalPrice * 0.13;
       addBtn.onclick = () => {
         for (let i = 0; i < quantity; i++) addToCart(product);
         addBtn.textContent = 'Added!';
-        setTimeout(() => { addBtn.textContent = 'Add to Cart'; }, 1000);
+        setTimeout(() => { addBtn.textContent = 'Add to Cart'; }, 1500);
       };
 
       container.append(minusBtn, quantityDisplay, plusBtn, addBtn);
@@ -274,6 +275,7 @@ const tax = totalPrice * 0.13;
           image: row[3] ? row[3].replace(/^"|"$/g, '') : ''
           };
         });
+          
 
         function renderProducts(filter = '') {
           const filtered = products.filter(p =>
@@ -318,7 +320,12 @@ const tax = totalPrice * 0.13;
         });
 
         renderProducts();
+      })
+      .catch(err => {
+        productList.innerHTML = '<p style="color:red;">Failed to load products. Please try again later.</p>';
+        console.error('Error loading CSV:', err);
       });
+    
   window.addEventListener('scroll', () => {
       const btn = document.getElementById('scrollTopBtn');
       if (window.scrollY > 200) {
