@@ -303,7 +303,7 @@ const tax = totalPrice * 0.13;
             const infoDiv = document.createElement('div');
             infoDiv.className = 'product-info';
             infoDiv.innerHTML = `
-              <div class="product-title">${p.name}</div>
+              <div class="product-title">${p.brand} - ${p.name}</div>
               <div class="product-description">Item #: ${p.itemNumber}</div>
               <div class="product-price">${p.price}</div>
                           `;
