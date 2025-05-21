@@ -126,15 +126,48 @@
     <div id="cart-subtotal" style="margin-top: 10px;">Subtotal: $0.00</div>
     <div id="cart-tax">Tax (13%): $0.00</div>
     <div id="cart-total" style="font-weight: bold;">Total: $0.00</div>
+
+    <!-- Order data -->
     <input type="hidden" name="products" id="product-input" />
     <input type="hidden" name="total" id="total-input" />
+
+    <!-- Customer name and email -->
     <input type="text" name="name" placeholder="Your name" required /> <br><br>
     <input type="email" name="email" placeholder="Your email" required /> <br><br>
-    <input type="hidden" name="note" value="Thank you for your order! Once we receive all of your products, we will contact you with payment instructions.<br><br>You can pay by e-transfer to nalae1270@gmail.com or by credit card (a 3% fee applies).<br><br>After your payment has been received, you may pick up your order at one of the following locations:<br>1. 24 Viceroy Rd, Unit 15, Concord, Ontario L4K 2L9 — Monday to Friday, 10am to 5pm<br>2. 29 Coneflower Crescent (Bathurst/Drewry) — by appointment only<br><br>Please confirm your preferred pickup location and available date/time after payment.<br><br>Thank you!">
+
+    <!-- Email will also be sent to customer's email -->
+    <input type="hidden" name="_cc" value="" id="cc-customer-email">
+
+    <!-- Confirmation message to customer -->
+    <input type="hidden" name="_autoresponse" value="Thank you for your order! Once we receive all of your products, we will contact you with payment instructions.
+
+You can pay by e-transfer to nalae1270@gmail.com or by credit card (a 3% fee applies).
+
+After your payment has been received, you may pick up your order at one of the following locations:
+
+1. 24 Viceroy Rd, Unit 15, Concord, Ontario L4K 2L9 — Monday to Friday, 10am to 5pm
+2. 29 Coneflower Crescent (Bathurst/Drewry) — by appointment only
+
+Please confirm your preferred pickup location and available date/time after payment.
+
+Thank you!">
+
+    <!-- Thank you note sent to your inbox -->
+    <input type="hidden" name="note" value="Thank you for your order! Once we receive all of your products, we will contact you with payment instructions. You can pay by e-transfer to nalae1270@gmail.com or by credit card (a 3% fee applies). After your payment has been received, you may pick up your order at one of the following locations: 1. 24 Viceroy Rd, Unit 15, Concord, Ontario L4K 2L9 — Monday to Friday, 10am to 5pm 2. 29 Coneflower Crescent (Bathurst/Drewry) — by appointment only. Please confirm your preferred pickup location and available date/time after payment. Thank you!">
+
     <br>
     <button type="submit">Submit Order</button>
     <div id="success-message" class="success-message" style="display: none;">Thank you! Your order has been submitted.</div>
-  </form>
+</form>
+
+<script>
+  // Copy user email to _cc field before form submit
+  document.getElementById('order-form').addEventListener('submit', function (e) {
+    var userEmail = document.querySelector('input[name="email"]').value;
+    document.getElementById('cc-customer-email').value = userEmail;
+  });
+</script>
+
   </div>
 
   <script>
@@ -320,11 +353,6 @@ const tax = totalPrice * 0.13;
         });
 
         renderProducts();
-      })
-      .catch(err => {
-        productList.innerHTML = '<p style="color:red;">Failed to load products. Please try again later.</p>';
-        console.error('Error loading CSV:', err);
-      });
     
   window.addEventListener('scroll', () => {
       const btn = document.getElementById('scrollTopBtn');
