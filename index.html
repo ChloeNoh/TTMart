@@ -271,7 +271,8 @@ const tax = totalPrice * 0.13;
           name: row[0].replace(/^"|"$/g, ''),
           itemNumber: row[1].replace(/^"|"$/g, ''),
           price: row[2].replace(/^"|"$/g, ''),
-          image: row[3] ? row[3].replace(/^"|"$/g, '') : ''
+          image: row[3] ? row[3].replace(/^"|"$/g, '') : '',
+          brand: row[5] ? row[5].replace(/\ /g, '_') : 'none'
           };
         });
 
