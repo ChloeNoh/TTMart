@@ -286,7 +286,7 @@ const tax = totalPrice * 0.13;
           productList.innerHTML = '';
           filtered.forEach(p => {
             const productDiv = document.createElement('div');
-            productDiv.className = 'product ' + p.brand;
+            productDiv.className = 'product ' + p.brandNoSpace;
 
             if (p.image) {
               const img = document.createElement('img');
