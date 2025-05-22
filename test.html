@@ -211,14 +211,14 @@
       const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
       cartCount.textContent = totalItems;
       const totalPrice = Object.values(cart).reduce((sum, item) => {
-        const numericPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+      const numericPrice = item.price || 0;
         return sum + numericPrice * item.quantity;
       }, 0);
       const tax = totalPrice * 0.13;
       const finalTotal = totalPrice + tax;
 
       productInput.value = Object.entries(cart).map(([key, item]) => {
-        const numericPrice = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+        const numericPrice = item.price || 0;
         const subtotal = (numericPrice * item.quantity).toFixed(2);
         return `${item.quantity} x ${item.name} (${item.price} each) = $${subtotal}`;
       }).join('\n') +
@@ -233,15 +233,15 @@
         'Total: $' + finalTotal.toFixed(2);
     }
 
-    function addToCart(product) {
-      const key = product.name;
-      if (cart[key]) {
-        cart[key].quantity++;
-      } else {
-        cart[key] = { ...product, quantity: 1 };
-      }
-      updateCartDisplay();
-    }
+    function addToCart(product, qty = 1) {
+  const key = product.name;
+  if (cart[key]) {
+    cart[key].quantity += qty;
+  } else {
+    cart[key] = { ...product, quantity: qty };
+  }
+  updateCartDisplay();
+}
 
     fetch(url)
       .then(res => res.text())
@@ -259,7 +259,7 @@
     brand: row[brandIndex]?.replace(/^"|"$/g, '').trim() || 'Unknown',
     name: row[nameIndex]?.replace(/^"|"$/g, '').trim() || 'Unnamed Product',
     itemNumber: row[itemNumberIndex]?.replace(/^"|"$/g, '').trim() || 'N/A',
-    price: parseFloat(row[priceIndex]?.replace(/[^\\d.]/g, '')) || 0,
+    price: parseFloat(row[priceIndex]?.replace(/[^\d.]/g, '')) || 0,
     image: row[imageIndex]?.replace(/^"|"$/g, '').trim() || ''
   };
 });
@@ -288,6 +288,7 @@
           content.className = 'accordion-content';
 
           grouped[brand].forEach(p => {
+  (function(p) {
             const productDiv = document.createElement('div');
             productDiv.className = 'product';
 
@@ -333,10 +334,10 @@
             addBtn.type = 'button';
             addBtn.textContent = 'Add to Cart';
             addBtn.onclick = () => {
-              for (let i = 0; i < quantity; i++) addToCart(p);
-              addBtn.textContent = 'Added!';
-              setTimeout(() => { addBtn.textContent = 'Add to Cart'; }, 1500);
-            };
+  addToCart(p, quantity);
+  addBtn.textContent = 'Added!';
+  setTimeout(() => { addBtn.textContent = 'Add to Cart'; }, 1500);
+};
 
             quantityControls.append(minusBtn, quantityDisplay, plusBtn, addBtn);
             infoDiv.appendChild(quantityControls);
@@ -345,8 +346,9 @@
 
             productDiv.appendChild(infoDiv);
             content.appendChild(productDiv);
+    })(p);
           });
-
+            
           section.appendChild(header);
           section.appendChild(content);
           productList.appendChild(section);
