@@ -306,10 +306,42 @@
               <div class="product-price">${p.price}</div>
             `;
 
+            const quantityControls = document.createElement('div');
+            quantityControls.className = 'quantity-controls';
+
+            let quantity = 1;
+            const minusBtn = document.createElement('button');
+            minusBtn.type = 'button';
+            minusBtn.textContent = '-';
+            minusBtn.onclick = () => {
+              if (quantity > 1) quantity--;
+              quantityDisplay.textContent = quantity;
+            };
+
+            const quantityDisplay = document.createElement('span');
+            quantityDisplay.textContent = quantity;
+
+            const plusBtn = document.createElement('button');
+            plusBtn.type = 'button';
+            plusBtn.textContent = '+';
+            plusBtn.onclick = () => {
+              quantity++;
+              quantityDisplay.textContent = quantity;
+            };
+
             const addBtn = document.createElement('button');
+            addBtn.type = 'button';
             addBtn.textContent = 'Add to Cart';
-            addBtn.onclick = () => addToCart(p);
-            infoDiv.appendChild(addBtn);
+            addBtn.onclick = () => {
+              for (let i = 0; i < quantity; i++) addToCart(p);
+              addBtn.textContent = 'Added!';
+              setTimeout(() => { addBtn.textContent = 'Add to Cart'; }, 1500);
+            };
+
+            quantityControls.append(minusBtn, quantityDisplay, plusBtn, addBtn);
+            infoDiv.appendChild(quantityControls);
+
+            
 
             productDiv.appendChild(infoDiv);
             content.appendChild(productDiv);
