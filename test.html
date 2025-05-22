@@ -247,7 +247,7 @@
       .then(res => res.text())
       .then(text => {
         const rows = text.trim().split('\n').map(line => line.split(','));
-        const headers = rows[0];
+        const headers = rows[0].map(h => h.trim().replace(/^"|"$/g, ''));
         const brandIndex = headers.indexOf('Brand');
         const nameIndex = headers.indexOf('Name');
         const itemNumberIndex = headers.indexOf('ItemNumber');
