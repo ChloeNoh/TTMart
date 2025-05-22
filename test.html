@@ -259,7 +259,7 @@
     brand: row[brandIndex]?.replace(/^"|"$/g, '').trim() || 'Unknown',
     name: row[nameIndex]?.replace(/^"|"$/g, '').trim() || 'Unnamed Product',
     itemNumber: row[itemNumberIndex]?.replace(/^"|"$/g, '').trim() || 'N/A',
-    price: row[priceIndex]?.replace(/^"|"$/g, '').trim() || '$0.00',
+    price: parseFloat(row[priceIndex]?.replace(/[^\\d.]/g, '')) || 0,
     image: row[imageIndex]?.replace(/^"|"$/g, '').trim() || ''
   };
 });
@@ -303,7 +303,7 @@
             infoDiv.innerHTML = `
               <div class="product-title">${p.name}</div>
               <div class="product-description">Item #: ${p.itemNumber}</div>
-              <div class="product-price">${p.price}</div>
+              <div class="product-price">$${p.price.toFixed(2)}</div>
             `;
 
             const quantityControls = document.createElement('div');
