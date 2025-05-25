@@ -419,7 +419,7 @@ function updateCartDisplay() {
   const totalLine = (item.price * item.quantity).toFixed(2);
   return `- ${qty} x ${name} @ $${price} = $${totalLine}`;
 });
-productInput.value = `Order Details:\n\n${productLines.join('\n')}\n\nSubtotal: $${subtotal.toFixed(2)}\nTax (13%): $${tax.toFixed(2)}\nTotal: $${total.toFixed(2)}`;
+productInput.value = `Order Details:\n\n${productLines.join('\n')}`;
 
 
   totalInput.value = `Subtotal: $${subtotal.toFixed(2)}
