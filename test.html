@@ -412,7 +412,15 @@ function updateCartDisplay() {
   document.getElementById('cart-subtotal').textContent = `Subtotal: $${subtotal.toFixed(2)}`;
   document.getElementById('cart-tax').textContent = `Tax (13%): $${tax.toFixed(2)}`;
   document.getElementById('cart-grandtotal').textContent = `Total After Tax: $${total.toFixed(2)}`;
-  productInput.value = html.replace(/<[^>]*>/g, '\n');
+  const productLines = Object.values(window.cart).map(item => {
+  const name = item.name;
+  const qty = item.quantity;
+  const price = item.price.toFixed(2);
+  const totalLine = (item.price * item.quantity).toFixed(2);
+  return `- ${qty} x ${name} @ $${price} = $${totalLine}`;
+});
+productInput.value = `Order Details:\n\n${productLines.join('\n')}\n\nSubtotal: $${subtotal.toFixed(2)}\nTax (13%): $${tax.toFixed(2)}\nTotal: $${total.toFixed(2)}`;
+
 
   totalInput.value = `Subtotal: $${subtotal.toFixed(2)}
 Tax: $${tax.toFixed(2)}
