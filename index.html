@@ -115,7 +115,19 @@
       font-weight: bold;
       color: #222;
     }
-  </style>
+    .qty-input {
+    width: 36px;
+    height: 32px;
+    font-size: 14px;
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    flex-shrink: 0;
+    flex-grow: 0;
+    appearance: textfield;
+  }
+</style>
 </head>
 <body>
   <header>
@@ -294,6 +306,7 @@ searchInput.addEventListener('input', e => {
   renderAccordion(results);
 });
   </script>
+
 <form id="order-form" action="https://formsubmit.co/nalae1270@gmail.com" method="POST" class="cart" style="margin: 40px 20px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
   <h2>Your Cart</h2>
   <div id="cart-items"></div>
@@ -307,7 +320,7 @@ searchInput.addEventListener('input', e => {
   <br><br>
   <input type="text" name="name" placeholder="Your name" required /> <br><br>
   <input type="email" name="email" placeholder="Your email" required /> <br><br>
-  <input type="hidden" name="_autoresponse" value="Thank you for your order! Once we receive all of your products, we will contact you with payment instructions. You can pay by e-transfer to nalae1270@gmail.com or by credit card (a 3% fee applies). After your payment has been received, you may pick up your order at one of the following locations: 1. 24 Viceroy Rd, Unit 15, Concord, Ontario L4K 2L9 — Monday to Friday, 10am to 5pm 2. 29 Coneflower Crescent (Bathurst/Drewry) — by appointment only. Please confirm your preferred pickup location and available date/time after payment. Thank you!">
+  <input type="hidden" name="_autoresponse" value="Thank you for your order! Once we receive your products, we will contact you with payment instructions. You can pay by: E-transfer to: nalae1270@gmail.com Pickup Locations: 24 Viceroy Rd, Unit 15, Concord, ON L4K 2L9 (Mon–Fri, 10am–5pm) OR 29 Coneflower Crescent (Bathurst/Drewry) — by appointment only. Please reply with your preferred pickup location and a convenient time. Thank you!">
   <button type="submit">Submit Order</button>
   <div id="success-message" class="success-message" style="display: none; color: green; font-weight: bold; margin-top: 10px;">Thank you! Your order has been submitted.</div>
 </form>
@@ -371,7 +384,7 @@ function updateCartDisplay() {
       <span>${item.name} ($${item.price.toFixed(2)})</span><br>
       <div class="quantity-controls">
         <button onclick="changeCartQuantity('${key}', -1)">-</button>
-        <input type="number" value="${item.quantity}" min="1" max="99" onchange="setCartQuantity('${key}', this.value)" style="width: 60px; text-align: center; height: 38px; font-size: 16px; border-radius: 6px; border: 1px solid #ccc;" autocomplete="off" />
+        <input type="number" value="${item.quantity}" min="1" max="99" onchange="setCartQuantity('${key}', this.value)" class="qty-input" autocomplete="off" />
         <button onclick="changeCartQuantity('${key}', 1)">+</button>
         <button onclick="removeCartItem('${key}')" style="background-color: #f44336; color: white;">Remove</button>
       </div>
@@ -387,7 +400,15 @@ function updateCartDisplay() {
   document.getElementById('cart-subtotal').textContent = `Subtotal: $${subtotal.toFixed(2)}`;
   document.getElementById('cart-tax').textContent = `Tax (13%): $${tax.toFixed(2)}`;
   document.getElementById('cart-grandtotal').textContent = `Total After Tax: $${total.toFixed(2)}`;
-  productInput.value = html.replace(/<[^>]*>/g, '\n');
+  const productLines = Object.values(window.cart).map(item => {
+  const name = item.name;
+  const qty = item.quantity;
+  const price = item.price.toFixed(2);
+  const totalLine = (item.price * item.quantity).toFixed(2);
+  return `- ${qty} x ${name} @ $${price} = $${totalLine}`;
+});
+productInput.value = `Order Details:\n\n${productLines.join('\n')}`;
+
 
   totalInput.value = `Subtotal: $${subtotal.toFixed(2)}
 Tax: $${tax.toFixed(2)}
