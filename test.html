@@ -320,7 +320,9 @@ searchInput.addEventListener('input', e => {
   <br><br>
   <input type="text" name="name" placeholder="Your name" required /> <br><br>
   <input type="email" name="email" placeholder="Your email" required /> <br><br>
+  <input type="hidden" name="_confirmation" value="Your order has been successfully submitted." />
   <input type="hidden" name="_autoresponse" value="Thank you for your order! Once we receive your products, we will contact you with payment instructions. You can pay by: E-transfer to: nalae1270@gmail.com Pickup Locations: 24 Viceroy Rd, Unit 15, Concord, ON L4K 2L9 (Mon–Fri, 10am–5pm) OR 29 Coneflower Crescent (Bathurst/Drewry) — by appointment only. Please reply with your preferred pickup location and a convenient time. Thank you!">
+  <input type="hidden" name="_next" value="https://chloenoh.github.io/TTMart/">
   <button type="submit">Submit Order</button>
   <div id="success-message" class="success-message" style="display: none; color: green; font-weight: bold; margin-top: 10px;">Thank you! Your order has been submitted.</div>
 </form>
@@ -402,11 +404,14 @@ function updateCartDisplay() {
   document.getElementById('cart-grandtotal').textContent = `Total After Tax: $${total.toFixed(2)}`;
   const productLines = Object.values(window.cart).map(item => {
   const name = item.name;
+  const itemNum = item.itemNumber || 'N/A';
+  const brand = allProducts.find(p => p.Name === name)?.Brand || 'Unknown Brand';
   const qty = item.quantity;
   const price = item.price.toFixed(2);
   const totalLine = (item.price * item.quantity).toFixed(2);
-  return `- ${qty} x ${name} @ $${price} = $${totalLine}`;
+  return `- ${qty} x (Brand: ${brand}, Item #: ${itemNum}) ${name} @ $${price} = $${totalLine}`;
 });
+
 productInput.value = `Order Details:\n\n${productLines.join('\n')}`;
 
 
