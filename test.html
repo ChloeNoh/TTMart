@@ -409,7 +409,7 @@ function updateCartDisplay() {
   const qty = item.quantity;
   const price = item.price.toFixed(2);
   const totalLine = (item.price * item.quantity).toFixed(2);
-  return `- ${qty} x (Brand: ${brand}, Item #: ${itemNum}) ${name} @ $${price} = $${totalLine}`;
+  return `- ${qty} x (Item #: ${itemNum}) ${brand} ${name} @ $${price} = $${totalLine}`;
 });
 
 productInput.value = `Order Details:\n\n${productLines.join('\n')}`;
