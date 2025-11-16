@@ -307,7 +307,41 @@ searchInput.addEventListener('input', e => {
 });
   </script>
 
-<form id="order-form" action="https://formsubmit.co/info@chloebakeware.com" method="POST" class="cart" style="margin: 40px 20px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+<!-- modify this form HTML and place wherever you want your form -->
+<form
+  action="https://formspree.io/f/xgvrnlla"
+  method="POST"
+>
+  <label>
+    Your email:
+    <input type="email" name="email">
+  </label>
+  <label>
+    Your message:
+    <textarea name="message"></textarea>
+  </label>
+  <!-- your other form fields go here -->
+  <h2>Your Cart</h2>
+  <div id="cart-items"></div>
+  <div id="cart-subtotal" style="margin-top: 10px;">Subtotal: $0.00</div>
+  <div id="cart-tax">Tax (13%): $0.00</div>
+  <div id="cart-grandtotal" style="font-weight: bold;">Total After Tax: $0.00</div>
+  <button onclick="clearCart()" type="button" style="margin-top: 10px; background-color: #f44336;">Clear Cart</button>
+
+  <input type="hidden" name="products" id="product-input" />
+  <input type="hidden" name="total" id="total-input" />
+  <br><br>
+  <input type="text" name="name" placeholder="Your name" required /> <br><br>
+  <input type="email" name="email" placeholder="Your email" required /> <br><br>
+  <input type="hidden" name="_confirmation" value="Your order has been successfully submitted." />
+  <input type="hidden" name="_autoresponse" value="Thank you for your order! Once we receive your products, we will contact you with payment instructions. You can pay by: E-transfer to: info@chloebakeware.com Pickup Locations: 24 Viceroy Rd, Unit 15, Concord, ON L4K 2L9 (Mon–Fri, 10am–5pm) OR 29 Coneflower Crescent (Bathurst/Drewry) — by appointment only. Please reply with your preferred pickup location and a convenient time. Thank you!">
+  <input type="hidden" name="_next" value="https://chloenoh.github.io/TTMart/">
+  <button type="submit">Submit Order</button>
+  <div id="success-message" class="success-message" style="display: none; color: green; font-weight: bold; margin-top: 10px;">Thank you! Your order has been submitted.</div>
+
+</form>
+  
+<!-- COMMENTED OUT BECAUSE FORMSUBMIT DOWN <form id="order-form" action="https://formsubmit.co/info@chloebakeware.com" method="POST" class="cart" style="margin: 40px 20px; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
   <h2>Your Cart</h2>
   <div id="cart-items"></div>
   <div id="cart-subtotal" style="margin-top: 10px;">Subtotal: $0.00</div>
@@ -326,6 +360,7 @@ searchInput.addEventListener('input', e => {
   <button type="submit">Submit Order</button>
   <div id="success-message" class="success-message" style="display: none; color: green; font-weight: bold; margin-top: 10px;">Thank you! Your order has been submitted.</div>
 </form>
+  -->
 
 <script>
 // Prevent form submission if cart is empty
@@ -462,6 +497,7 @@ window.addEventListener('scroll', () => {
 </script>
 </body>
 </html>
+
 
 
 
